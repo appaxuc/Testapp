@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">TestApp</string>
+    <string name="textTest">Text</string>
+    <string name="person_title">Person Title</string>
+    <string name="person_age">Person Age</string>
+</resources>
