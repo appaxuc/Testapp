@@ -1,11 +1,18 @@
 package com.example.app.testapp.httpCon;
 
-public class PersonItem {
+import com.example.app.testapp.Person;
+
+public class PersonItem extends Person{
     private int mId;
     private String mFirstName;
     private String mLastName;
     private String mBirth;
     private String mSpec;
+
+    @Override
+    public String toString() {
+        return mFirstName;
+    }
 
     public String getFirstName() {
         return mFirstName;
