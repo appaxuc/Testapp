@@ -41,11 +41,9 @@ public class PersonBank {
     }
 
     public static void addPerson(List<PersonItem> p) {
-        for (int i = 0; i < p.size(); i++) {
             ContentValues values = getContentValues(p);
             //System.out.println(values);
-            mDatabase.insert(PersonTable.NAME, null, values);
-        }
+            //mDatabase.insert(PersonTable.NAME, null, values);
     }
 
     public List<Person> getPersons() {
@@ -69,8 +67,10 @@ public class PersonBank {
             values.put(PersonTable.Cols.LAST_NAME, person.get(i).getLastName());
             values.put(PersonTable.Cols.BIRTH, person.get(i).getBirth());
             values.put(PersonTable.Cols.SPEC, person.get(i).getSpec());
+            mDatabase.insert(PersonTable.NAME, null, values);
         }
         //System.out.println(values);
+
         return values;
     }
 }

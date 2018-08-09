@@ -37,7 +37,7 @@ public class PersonFragment extends Fragment {
         return fragment;
     }
 
-    private class FetchItemTask extends AsyncTask<Void, Void, List<PersonItem>> {
+    public class FetchItemTask extends AsyncTask<Void, Void, List<PersonItem>> {
         @Override
         protected List<PersonItem> doInBackground(Void... params) {
             mItems = new PersonFetchr().fetchItems();
@@ -55,7 +55,7 @@ public class PersonFragment extends Fragment {
         mPerson = PersonBank.get(getActivity()).getPerson(personId);
 
         setRetainInstance(true);
-        new FetchItemTask().execute();
+        //new FetchItemTask().execute();
     }
 
     @Nullable

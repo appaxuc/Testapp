@@ -1,6 +1,7 @@
 package com.example.app.testapp;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,21 +13,36 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.app.testapp.httpCon.PersonFetchr;
+import com.example.app.testapp.httpCon.PersonItem;
+
 import java.util.List;
 
 public class PersonListFragment extends Fragment {
 
     private RecyclerView mPersonRecyclerView;
     private PersonAdapter mAdapter;
+    private List<PersonItem> mItems;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        new FetchItemTask().execute();
         View view = inflater.inflate(R.layout.fragment_person_list, container, false);
         mPersonRecyclerView = view.findViewById(R.id.person_recycler_view);
         mPersonRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         updateUI();
         return view;
+    }
+
+    public class FetchItemTask extends AsyncTask<Void, Void, List<PersonItem>> {
+        @Override
+        protected List<PersonItem> doInBackground(Void... params) {
+            mItems = new PersonFetchr().fetchItems();
+            //System.out.println(mItems);
+            PersonBank.addPerson(mItems);
+            return mItems;
+        }
     }
 
     private void updateUI() {
