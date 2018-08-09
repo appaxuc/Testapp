@@ -19,7 +19,7 @@ public class PersonBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + PersonTable.NAME + "(" +
                 " _id integer primary key autoincrement, " +
-                PersonTable.Cols.ID + ", " +
+                PersonTable.Cols.UUID + ", " +
                 PersonTable.Cols.FIRST_NAME + ", " +
                 PersonTable.Cols.LAST_NAME + ", " +
                 PersonTable.Cols.BIRTH + ", " +

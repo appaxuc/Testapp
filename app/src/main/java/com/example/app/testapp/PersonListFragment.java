@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class PersonListFragment extends Fragment{
+public class PersonListFragment extends Fragment {
 
     private RecyclerView mPersonRecyclerView;
     private PersonAdapter mAdapter;
@@ -31,7 +31,7 @@ public class PersonListFragment extends Fragment{
 
     private void updateUI() {
         PersonBank personBank = PersonBank.get(getActivity());
-        List<Person> persons = personBank.getPerson();
+        List<Person> persons = personBank.getPersons();
         mAdapter = new PersonAdapter(persons);
         mPersonRecyclerView.setAdapter(mAdapter);
     }
@@ -45,7 +45,7 @@ public class PersonListFragment extends Fragment{
             super(inflater.inflate(R.layout.list_item_person, parent,false));
             itemView.setOnClickListener(this);
 
-            mTitleTextView = (TextView) itemView.findViewById(R.id.person_title);
+            mTitleTextView = itemView.findViewById(R.id.person_title);
         }
 
         public void bind(Person person) {

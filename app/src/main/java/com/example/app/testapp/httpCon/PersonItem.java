@@ -1,8 +1,6 @@
 package com.example.app.testapp.httpCon;
 
-import com.example.app.testapp.Person;
-
-public class PersonItem extends Person{
+public class PersonItem{
     private int mId;
     private String mFirstName;
     private String mLastName;

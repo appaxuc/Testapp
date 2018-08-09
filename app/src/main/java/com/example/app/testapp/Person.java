@@ -1,12 +1,19 @@
 package com.example.app.testapp;
 
+import java.util.UUID;
+
 public class Person {
     private int mId;
+    private UUID mUUID;
     private String mFirstName;
     private String mLastName;
     private String mBirth;
     private String mSpec;
     private String mTitle;
+
+    public Person() {
+        mUUID = UUID.randomUUID();
+    }
 
     public String getFirstName() {
         return mFirstName;
@@ -18,6 +25,10 @@ public class Person {
 
     public void setId(int id) {
         mId = id;
+    }
+
+    public UUID getUUID() {
+        return mUUID;
     }
 
     public void setFirstName(String firstName) {
@@ -50,5 +61,9 @@ public class Person {
 
     public void setTitle(String title) {
         mTitle = title;
+    }
+
+    public String getTitle() {
+        return mTitle;
     }
 }

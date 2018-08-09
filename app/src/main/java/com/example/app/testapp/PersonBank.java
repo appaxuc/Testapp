@@ -16,8 +16,10 @@ public class PersonBank {
 
     private static PersonBank sPersonBank;
 
+    private List<Person> mPersonList;
+
     private Context mContext;
-    private SQLiteDatabase mDatabase;
+    private static SQLiteDatabase mDatabase;
 
     public static PersonBank get(Context context) {
         if (sPersonBank == null) {
@@ -26,36 +28,49 @@ public class PersonBank {
         return sPersonBank;
     }
     private PersonBank(Context context) {
+        mPersonList = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            Person person = new Person();
+            person.setTitle("Person #" + i);
+            mPersonList.add(person);
+        }
+
         mContext = context.getApplicationContext();
         mDatabase = new PersonBaseHelper(mContext)
                 .getWritableDatabase();
-        for (int i = 0; i < 20; i++) {
-            Person person = new Person();
-            person.setTitle("Person #" + i);
+    }
+
+    public static void addPerson(List<PersonItem> p) {
+        for (int i = 0; i < p.size(); i++) {
+            ContentValues values = getContentValues(p);
+            //System.out.println(values);
+            mDatabase.insert(PersonTable.NAME, null, values);
         }
     }
 
-    public void addPerson (PersonItem person) {
-        ContentValues values = getContentValues(person);
-
-        mDatabase.insert(PersonTable.NAME, null, values);
+    public List<Person> getPersons() {
+        return mPersonList;
     }
 
-    public List<Person> getPerson() {
-        return new ArrayList<>();
-    }
-
-    public Person getPerson(UUID uuid) {
+    public Person getPerson(UUID id) {
+        for (Person person : mPersonList) {
+            if (person.getUUID().equals(id)) {
+                return person;
+            }
+        }
         return null;
     }
 
-    private static ContentValues getContentValues(PersonItem person) {
+    private static ContentValues getContentValues(List<PersonItem> person) {
         ContentValues values = new ContentValues();
-        values.put(PersonTable.Cols.ID, person.getId());
-        values.put(PersonTable.Cols.FIRST_NAME, person.getFirstName());
-        values.put(PersonTable.Cols.LAST_NAME, person.getLastName());
-        values.put(PersonTable.Cols.BIRTH, person.getBirth());
-        values.put(PersonTable.Cols.SPEC, person.getSpec());
+        for (int i = 0; i < person.size(); i++) {
+            values.put(PersonTable.Cols.UUID, person.get(i).getId());
+            values.put(PersonTable.Cols.FIRST_NAME, person.get(i).getFirstName());
+            values.put(PersonTable.Cols.LAST_NAME, person.get(i).getLastName());
+            values.put(PersonTable.Cols.BIRTH, person.get(i).getBirth());
+            values.put(PersonTable.Cols.SPEC, person.get(i).getSpec());
+        }
+        //System.out.println(values);
         return values;
     }
 }

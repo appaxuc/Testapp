@@ -2,6 +2,8 @@ package com.example.app.testapp.httpCon;
 
 import android.util.Log;
 
+import com.example.app.testapp.Person;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,18 +76,18 @@ public class PersonFetchr {
             PersonItem item = new PersonItem();
             item.setId(i);
             String fName = responseJsonObject.getString("f_name");
-            fName = fName.substring(0, 1).toUpperCase() + fName.substring(1);
+            fName = fName.substring(0, 1).toUpperCase() + fName.substring(1).toLowerCase();
             item.setFirstName(fName);
             String lName = responseJsonObject.getString("l_name");
-            lName = lName.substring(0, 1).toUpperCase() + lName.substring(1);
+            lName = lName.substring(0, 1).toUpperCase() + lName.substring(1).toLowerCase();
             item.setLastName(lName);
             String birth = responseJsonObject.getString("birthday");
-            if (birth.isEmpty() || birth == null) {
+            if (birth.isEmpty() || birth == "null") {
                 birth = "-";
             } else if (birth.charAt(4) == '-') {
-                birth = birth.substring(8, 9) + "." +
-                        birth.substring(5, 6) + "." +
-                        birth.substring(0,3);
+                birth = birth.substring(8, 10) + "." +
+                        birth.substring(5, 7) + "." +
+                        birth.substring(0,4);
             } else {
                 birth = birth.replace('-', '.');
             }
@@ -95,7 +97,6 @@ public class PersonFetchr {
                 JSONObject specialtyJsonObject = specialtyJsonArray.getJSONObject(j);
                 item.setSpec(specialtyJsonObject.getString("name"));
             }
-
             items.add(item);
         }
     }
