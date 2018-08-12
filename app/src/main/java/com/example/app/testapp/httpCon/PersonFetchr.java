@@ -47,9 +47,9 @@ public class PersonFetchr {
         return new String(getUrlBytes(urlSpec));
     }
 
-    public List<PersonItem> fetchItems() {
+    public List<Person> fetchItems() {
 
-        List<PersonItem> items = new ArrayList<>();
+        List<Person> items = new ArrayList<>();
 
         try {
             String jsonString = getUrlString(
@@ -65,7 +65,7 @@ public class PersonFetchr {
         return items;
     }
 
-    private void parseItems(List<PersonItem> items, JSONObject jsonBody)
+    private void parseItems(List<Person> items, JSONObject jsonBody)
         throws IOException, JSONException {
         JSONArray responseJsonArray = jsonBody.getJSONArray("response");
 
@@ -73,7 +73,7 @@ public class PersonFetchr {
             JSONObject responseJsonObject = responseJsonArray.getJSONObject(i);
             JSONArray specialtyJsonArray = responseJsonObject.getJSONArray("specialty");
 
-            PersonItem item = new PersonItem();
+            Person item = new Person();
             item.setId(i);
             String fName = responseJsonObject.getString("f_name");
             fName = fName.substring(0, 1).toUpperCase() + fName.substring(1).toLowerCase();

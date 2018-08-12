@@ -5,15 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.app.testapp.httpCon.PersonFetchr;
-import com.example.app.testapp.httpCon.PersonItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +23,7 @@ public class PersonFragment extends Fragment {
 
     private Person mPerson;
     private TextView mTextView;
-    public List<PersonItem> mItems = new ArrayList<>();
+    public List<Person> mItems = new ArrayList<>();
 
     public static PersonFragment newInstance (UUID personId) {
         Bundle args = new Bundle();
@@ -37,9 +34,9 @@ public class PersonFragment extends Fragment {
         return fragment;
     }
 
-    public class FetchItemTask extends AsyncTask<Void, Void, List<PersonItem>> {
+    public class FetchItemTask extends AsyncTask<Void, Void, List<Person>> {
         @Override
-        protected List<PersonItem> doInBackground(Void... params) {
+        protected List<Person> doInBackground(Void... params) {
             mItems = new PersonFetchr().fetchItems();
             //System.out.println(mItems);
             PersonBank.addPerson(mItems);

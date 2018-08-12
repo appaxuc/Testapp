@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.app.testapp.httpCon.PersonFetchr;
-import com.example.app.testapp.httpCon.PersonItem;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class PersonListFragment extends Fragment {
 
     private RecyclerView mPersonRecyclerView;
     private PersonAdapter mAdapter;
-    private List<PersonItem> mItems;
+    private List<Person> mItems;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -35,11 +34,10 @@ public class PersonListFragment extends Fragment {
         return view;
     }
 
-    public class FetchItemTask extends AsyncTask<Void, Void, List<PersonItem>> {
+    public class FetchItemTask extends AsyncTask<Void, Void, List<Person>> {
         @Override
-        protected List<PersonItem> doInBackground(Void... params) {
+        protected List<Person> doInBackground(Void... params) {
             mItems = new PersonFetchr().fetchItems();
-            //System.out.println(mItems);
             PersonBank.addPerson(mItems);
             return mItems;
         }
@@ -66,7 +64,7 @@ public class PersonListFragment extends Fragment {
 
         public void bind(Person person) {
             mPerson = person;
-            mTitleTextView.setText(mPerson.getTitle());
+            mTitleTextView.setText(mPerson.getFirstName() + " " + mPerson.getLastName());
         }
 
         @Override

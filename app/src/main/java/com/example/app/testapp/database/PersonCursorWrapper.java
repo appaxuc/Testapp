@@ -5,8 +5,9 @@ import android.database.CursorWrapper;
 
 import com.example.app.testapp.Person;
 
-import java.util.Date;
 import java.util.UUID;
+
+import static com.example.app.testapp.database.PersonDbSchema.PersonTable.*;
 
 public class PersonCursorWrapper extends CursorWrapper {
     /**
@@ -19,18 +20,18 @@ public class PersonCursorWrapper extends CursorWrapper {
     }
 
     public Person getPerson() {
-        String uuidString = getString(getColumnIndex(PersonDbSchema.PersonTable.Cols.UUID));
-        String id = getString(getColumnIndex(PersonDbSchema.PersonTable.Cols.UUID));
-        String firstName = getString(getColumnIndex(PersonDbSchema.PersonTable.Cols.FIRST_NAME));
-        String lastName = getString(getColumnIndex(PersonDbSchema.PersonTable.Cols.LAST_NAME));
-        Long birth = getLong(getColumnIndex(PersonDbSchema.PersonTable.Cols.BIRTH));
-        String spec = getString(getColumnIndex(PersonDbSchema.PersonTable.Cols.SPEC));
+        String uuidString = getString(getColumnIndex(Cols.UUID));
+        int idString = getInt(getColumnIndex(Cols.ID));
+        String firstName = getString(getColumnIndex(Cols.FIRST_NAME));
+        String lastName = getString(getColumnIndex(Cols.LAST_NAME));
+        String birth = getString(getColumnIndex(Cols.BIRTH));
+        String spec = getString(getColumnIndex(Cols.SPEC));
 
         Person person = new Person(UUID.fromString(uuidString));
-        person.setId(id);
+        person.setId(idString);
         person.setFirstName(firstName);
         person.setLastName(lastName);
-        person.setDate(new Date(birth));
+        person.setBirth(birth);
         person.setSpec(spec);
 
         return person;

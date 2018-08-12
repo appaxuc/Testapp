@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.app.testapp.database.PersonBaseHelper;
 import com.example.app.testapp.database.PersonCursorWrapper;
 import com.example.app.testapp.database.PersonDbSchema.PersonTable;
-import com.example.app.testapp.httpCon.PersonItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +16,6 @@ import java.util.UUID;
 public class PersonBank {
 
     private static PersonBank sPersonBank;
-
-    private List<Person> mPersonList;
 
     private Context mContext;
     private static SQLiteDatabase mDatabase;
@@ -30,22 +27,13 @@ public class PersonBank {
         return sPersonBank;
     }
     private PersonBank(Context context) {
-        mPersonList = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            Person person = new Person();
-            person.setTitle("Person #" + i);
-            mPersonList.add(person);
-        }
-
         mContext = context.getApplicationContext();
         mDatabase = new PersonBaseHelper(mContext)
                 .getWritableDatabase();
     }
 
-    public static void addPerson(List<PersonItem> p) {
+    public static void addPerson(List<Person> p) {
             ContentValues values = getContentValues(p);
-            //System.out.println(values);
-            //mDatabase.insert(PersonTable.NAME, null, values);
     }
 
     public List<Person> getPersons() {
@@ -65,10 +53,10 @@ public class PersonBank {
         return persons;
     }
 
-    public Person getPerson(UUID id) {
+    public Person getPerson(UUID uuid) {
         PersonCursorWrapper cursorWrapper = queryPerson(
                 PersonTable.Cols.UUID = " = ?",
-                new String[] { id.toString() }
+                new String[] { uuid.toString() }
         );
 
         try {
@@ -83,17 +71,17 @@ public class PersonBank {
         }
     }
 
-    private static ContentValues getContentValues(List<PersonItem> person) {
+    private static ContentValues getContentValues(List<Person> person) {
         ContentValues values = new ContentValues();
         for (int i = 0; i < person.size(); i++) {
-            values.put(PersonTable.Cols.UUID, person.get(i).getId());
+            values.put(PersonTable.Cols.UUID, person.get(i).getUUID().toString());
+            values.put(PersonTable.Cols.ID, person.get(i).getId());
             values.put(PersonTable.Cols.FIRST_NAME, person.get(i).getFirstName());
             values.put(PersonTable.Cols.LAST_NAME, person.get(i).getLastName());
             values.put(PersonTable.Cols.BIRTH, person.get(i).getBirth());
             values.put(PersonTable.Cols.SPEC, person.get(i).getSpec());
             mDatabase.insert(PersonTable.NAME, null, values);
         }
-        //System.out.println(values);
 
         return values;
     }
@@ -108,7 +96,6 @@ public class PersonBank {
                 null,
                 null
         );
-
         return new PersonCursorWrapper(cursor);
     }
 }
