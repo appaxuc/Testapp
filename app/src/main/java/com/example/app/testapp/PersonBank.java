@@ -2,9 +2,11 @@ package com.example.app.testapp;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.app.testapp.database.PersonBaseHelper;
+import com.example.app.testapp.database.PersonCursorWrapper;
 import com.example.app.testapp.database.PersonDbSchema.PersonTable;
 import com.example.app.testapp.httpCon.PersonItem;
 
@@ -47,16 +49,38 @@ public class PersonBank {
     }
 
     public List<Person> getPersons() {
-        return mPersonList;
+        List<Person> persons = new ArrayList<>();
+
+        PersonCursorWrapper cursor = queryPerson(null, null);
+
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                persons.add(cursor.getPerson());
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
+        return persons;
     }
 
     public Person getPerson(UUID id) {
-        for (Person person : mPersonList) {
-            if (person.getUUID().equals(id)) {
-                return person;
+        PersonCursorWrapper cursorWrapper = queryPerson(
+                PersonTable.Cols.UUID = " = ?",
+                new String[] { id.toString() }
+        );
+
+        try {
+            if (cursorWrapper.getCount() == 0) {
+                return null;
             }
+
+            cursorWrapper.moveToFirst();
+            return cursorWrapper.getPerson();
+        } finally {
+            cursorWrapper.close();
         }
-        return null;
     }
 
     private static ContentValues getContentValues(List<PersonItem> person) {
@@ -72,5 +96,19 @@ public class PersonBank {
         //System.out.println(values);
 
         return values;
+    }
+
+    private PersonCursorWrapper queryPerson (String whereSel, String[] whereArgs) {
+        Cursor cursor = mDatabase.query(
+                PersonTable.NAME,
+                null,
+                whereSel,
+                whereArgs,
+                null,
+                null,
+                null
+        );
+
+        return new PersonCursorWrapper(cursor);
     }
 }

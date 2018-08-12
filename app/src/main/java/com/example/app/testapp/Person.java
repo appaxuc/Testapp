@@ -1,29 +1,30 @@
 package com.example.app.testapp;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class Person {
-    private int mId;
+    private String mId;
     private UUID mUUID;
     private String mFirstName;
     private String mLastName;
-    private String mBirth;
+    private Date mBirth;
     private String mSpec;
     private String mTitle;
 
     public Person() {
-        mUUID = UUID.randomUUID();
+        this(UUID.randomUUID());
+    }
+
+    public Person (UUID uuid){
+        mUUID = uuid;
     }
 
     public String getFirstName() {
         return mFirstName;
     }
 
-    public int getId() {
-        return mId;
-    }
-
-    public void setId(int id) {
+    public void setId(String id) {
         mId = id;
     }
 
@@ -43,11 +44,11 @@ public class Person {
         mLastName = lastName;
     }
 
-    public String getBirth() {
+    public Date getBirth() {
         return mBirth;
     }
 
-    public void setBirth(String birth) {
+    public void setBirth(Date birth) {
         mBirth = birth;
     }
 
@@ -65,5 +66,9 @@ public class Person {
 
     public String getTitle() {
         return mTitle;
+    }
+
+    public void setDate(Date date) {
+
     }
 }

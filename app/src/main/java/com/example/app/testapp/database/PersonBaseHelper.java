@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.app.testapp.Person;
 import com.example.app.testapp.database.PersonDbSchema.PersonTable;
 
 public class PersonBaseHelper extends SQLiteOpenHelper {
@@ -20,6 +21,7 @@ public class PersonBaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + PersonTable.NAME + "(" +
                 " _id integer primary key autoincrement, " +
                 PersonTable.Cols.UUID + ", " +
+                PersonTable.Cols.ID + ", " +
                 PersonTable.Cols.FIRST_NAME + ", " +
                 PersonTable.Cols.LAST_NAME + ", " +
                 PersonTable.Cols.BIRTH + ", " +

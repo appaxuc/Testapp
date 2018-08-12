@@ -1,7 +1,7 @@
 package com.example.app.testapp.httpCon;
 
 public class PersonItem{
-    private int mId;
+    private String mId;
     private String mFirstName;
     private String mLastName;
     private String mBirth;
@@ -16,11 +16,11 @@ public class PersonItem{
         return mFirstName;
     }
 
-    public int getId() {
+    public String  getId() {
         return mId;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         mId = id;
     }
 
