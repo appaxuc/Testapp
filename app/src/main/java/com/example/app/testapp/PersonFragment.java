@@ -38,7 +38,6 @@ public class PersonFragment extends Fragment {
         @Override
         protected List<Person> doInBackground(Void... params) {
             mItems = new PersonFetchr().fetchItems();
-            //System.out.println(mItems);
             PersonBank.addPerson(mItems);
             return new PersonFetchr().fetchItems();
         }
@@ -48,11 +47,10 @@ public class PersonFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        UUID personId = (UUID) getArguments().getSerializable(ARG_PERSON_ID);
-        mPerson = PersonBank.get(getActivity()).getPerson(personId);
+        //UUID personId = (UUID) getArguments().getSerializable(ARG_PERSON_ID);
+        //mPerson = PersonBank.get(getActivity()).getPerson(personId);
 
         setRetainInstance(true);
-        //new FetchItemTask().execute();
     }
 
     @Nullable
@@ -62,7 +60,7 @@ public class PersonFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_person, container, false);
 
         mTextView = v.findViewById(R.id.personBox);
-        mTextView.setText(mPerson.getTitle());
+        //mTextView.setText(mPerson.getTitle());
 
         return v;
     }

@@ -1,5 +1,6 @@
 package com.example.app.testapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -62,6 +63,7 @@ public class PersonListFragment extends Fragment {
             mTitleTextView = itemView.findViewById(R.id.person_title);
         }
 
+        @SuppressLint("SetTextI18n")
         public void bind(Person person) {
             mPerson = person;
             mTitleTextView.setText(mPerson.getFirstName() + " " + mPerson.getLastName());

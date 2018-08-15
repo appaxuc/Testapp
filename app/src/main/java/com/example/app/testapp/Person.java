@@ -23,10 +23,6 @@ public class Person {
         return mFirstName;
     }
 
-    public void setUUID(UUID UUID) {
-        mUUID = UUID;
-    }
-
     public void setId(int id) {
         mId = id;
     }

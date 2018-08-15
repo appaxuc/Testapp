@@ -17,7 +17,6 @@ public class PersonBank {
 
     private static PersonBank sPersonBank;
 
-    private Context mContext;
     private static SQLiteDatabase mDatabase;
 
     public static PersonBank get(Context context) {
@@ -27,9 +26,10 @@ public class PersonBank {
         return sPersonBank;
     }
     private PersonBank(Context context) {
-        mContext = context.getApplicationContext();
-        mDatabase = new PersonBaseHelper(mContext)
+
+        mDatabase = new PersonBaseHelper(context)
                 .getWritableDatabase();
+        mDatabase.delete("persons", null, null);
     }
 
     public static void addPerson(List<Person> p) {
