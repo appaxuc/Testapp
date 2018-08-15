@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,13 @@ import android.widget.TextView;
 import com.example.app.testapp.httpCon.PersonFetchr;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class PersonListFragment extends Fragment {
+
+    final String LOG_TAG = "myLogs";
 
     private RecyclerView mPersonRecyclerView;
     private PersonAdapter mAdapter;
@@ -27,11 +33,23 @@ public class PersonListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        new FetchItemTask().execute();
+        PersonBank personBank = PersonBank.get(getActivity());
+        Log.d(LOG_TAG, "start FetchItemTask()");
+        try {
+            new FetchItemTask().execute().get(2, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
         View view = inflater.inflate(R.layout.fragment_person_list, container, false);
         mPersonRecyclerView = view.findViewById(R.id.person_recycler_view);
         mPersonRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        updateUI();
+        Log.d(LOG_TAG,"RV ready");
+        updateUI(personBank);
+        Log.d(LOG_TAG, "UpdateUI finish");
         return view;
     }
 
@@ -39,13 +57,14 @@ public class PersonListFragment extends Fragment {
         @Override
         protected List<Person> doInBackground(Void... params) {
             mItems = new PersonFetchr().fetchItems();
+            Log.d(LOG_TAG, "FetchItem finish, start addPerson");
             PersonBank.addPerson(mItems);
             return mItems;
         }
     }
 
-    private void updateUI() {
-        PersonBank personBank = PersonBank.get(getActivity());
+    private void updateUI(PersonBank personBank) {
+        //PersonBank personBank = PersonBank.get(getActivity());
         List<Person> persons = personBank.getPersons();
         mAdapter = new PersonAdapter(persons);
         mPersonRecyclerView.setAdapter(mAdapter);

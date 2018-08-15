@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.app.testapp.database.PersonBaseHelper;
 import com.example.app.testapp.database.PersonCursorWrapper;
@@ -14,6 +15,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class PersonBank {
+
+    static final String LOG_TAG = "myLogs";
 
     private static PersonBank sPersonBank;
 
@@ -30,6 +33,7 @@ public class PersonBank {
         mDatabase = new PersonBaseHelper(context)
                 .getWritableDatabase();
         mDatabase.delete("persons", null, null);
+        Log.d(LOG_TAG, "DB is created");
     }
 
     public static void addPerson(List<Person> p) {
@@ -72,7 +76,9 @@ public class PersonBank {
     }
 
     private static ContentValues getContentValues(List<Person> person) {
+        Log.d(LOG_TAG, "start getContentValues");
         ContentValues values = new ContentValues();
+        Log.d(LOG_TAG, "CV is created");
         for (int i = 0; i < person.size(); i++) {
             values.put(PersonTable.Cols.UUID, person.get(i).getUUID().toString());
             values.put(PersonTable.Cols.ID, person.get(i).getId());
@@ -81,7 +87,10 @@ public class PersonBank {
             values.put(PersonTable.Cols.BIRTH, person.get(i).getBirth());
             values.put(PersonTable.Cols.SPEC, person.get(i).getSpec());
             mDatabase.insert(PersonTable.NAME, null, values);
+            Log.d(LOG_TAG, "added person " + i);
         }
+
+        Log.d(LOG_TAG,"DB is full");
 
         return values;
     }

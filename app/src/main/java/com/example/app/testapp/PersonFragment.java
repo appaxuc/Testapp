@@ -34,14 +34,14 @@ public class PersonFragment extends Fragment {
         return fragment;
     }
 
-    public class FetchItemTask extends AsyncTask<Void, Void, List<Person>> {
+    /*public class FetchItemTask extends AsyncTask<Void, Void, List<Person>> {
         @Override
         protected List<Person> doInBackground(Void... params) {
             mItems = new PersonFetchr().fetchItems();
             PersonBank.addPerson(mItems);
             return new PersonFetchr().fetchItems();
         }
-    }
+    }*/
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class PersonFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_person, container, false);
 
-        mTextView = v.findViewById(R.id.personBox);
+        //mTextView = v.findViewById(R.id.personBox);
         //mTextView.setText(mPerson.getTitle());
 
         return v;

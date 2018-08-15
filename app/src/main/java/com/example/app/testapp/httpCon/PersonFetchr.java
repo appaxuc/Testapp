@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PersonFetchr {
-    private static final String TAG = "PersonFetchr";
+    private static final String LOG_TAG = "myLogs";
 
     public byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);
@@ -55,13 +55,13 @@ public class PersonFetchr {
         try {
             String jsonString = getUrlString(
                     "http://gitlab.65apps.com/65gb/static/raw/master/testTask.json");
-            Log.i(TAG, "Received JSON: " + jsonString);
+            Log.d(LOG_TAG, "Received JSON: ");
             JSONObject jsonBody = new JSONObject(jsonString);
             parseItems(items, jsonBody);
         } catch (IOException ioe) {
-            Log.e(TAG, "Failed to fetch URL: ", ioe);
+            Log.e(LOG_TAG, "Failed to fetch URL: ", ioe);
         } catch (JSONException je) {
-            Log.e(TAG, "Failed to parse JSON", je);
+            Log.e(LOG_TAG, "Failed to parse JSON", je);
         }
         return items;
     }
