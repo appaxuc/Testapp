@@ -62,7 +62,7 @@ public class PersonBank {
     public Person getPerson(UUID uuid) {
         Log.d(LOG_TAG, "Call getPerson()");
         PersonCursorWrapper cursorWrapper = queryPerson(
-                PersonTable.Cols.UUID,
+                PersonTable.Cols.UUID + " = ?",
                 new String[] { uuid.toString() }
         );
 
@@ -79,13 +79,15 @@ public class PersonBank {
         }
     }
 
-    public void updatePerson(Person person) {
-        String uuidString = person.getUUID().toString();
-        ContentValues values = getContentValues(person);
+    public void updatePerson(List<Person> person) {
+        for (int i = 0; i < person.size(); i++) {
+            String uuidString = person.get(i).getUUID().toString();
+            ContentValues values = getContentValues(person);
 
-        mDatabase.update(PersonTable.NAME, values,
-                PersonTable.Cols.UUID + " = ?",
-                new String[] { uuidString });
+            mDatabase.update(PersonTable.NAME, values,
+                    PersonTable.Cols.UUID + " = ?",
+                    new String[]{uuidString});
+        }
     }
 
     private static ContentValues getContentValues(List<Person> person) {
