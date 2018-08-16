@@ -21,14 +21,14 @@ public class PersonCursorWrapper extends CursorWrapper {
 
     public Person getPerson() {
         String uuidString = getString(getColumnIndex(Cols.UUID));
-        int idString = getInt(getColumnIndex(Cols.ID));
+        int id = getInt(getColumnIndex(Cols.ID));
         String firstName = getString(getColumnIndex(Cols.FIRST_NAME));
         String lastName = getString(getColumnIndex(Cols.LAST_NAME));
         String birth = getString(getColumnIndex(Cols.BIRTH));
         String spec = getString(getColumnIndex(Cols.SPEC));
 
         Person person = new Person(UUID.fromString(uuidString));
-        person.setId(idString);
+        person.setId(id);
         person.setFirstName(firstName);
         person.setLastName(lastName);
         person.setBirth(birth);

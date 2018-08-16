@@ -1,10 +1,12 @@
 package com.example.app.testapp;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +18,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.example.app.testapp.PersonBank.LOG_TAG;
+
 public class PersonFragment extends Fragment {
 
     private static final String ARG_PERSON_ID = "person_id";
     private static final String TAG = "PersonListF";
 
     private Person mPerson;
-    private TextView mTextView;
-    public List<Person> mItems = new ArrayList<>();
 
     public static PersonFragment newInstance (UUID personId) {
         Bundle args = new Bundle();
@@ -34,33 +36,28 @@ public class PersonFragment extends Fragment {
         return fragment;
     }
 
-    /*public class FetchItemTask extends AsyncTask<Void, Void, List<Person>> {
-        @Override
-        protected List<Person> doInBackground(Void... params) {
-            mItems = new PersonFetchr().fetchItems();
-            PersonBank.addPerson(mItems);
-            return new PersonFetchr().fetchItems();
-        }
-    }*/
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //UUID personId = (UUID) getArguments().getSerializable(ARG_PERSON_ID);
-        //mPerson = PersonBank.get(getActivity()).getPerson(personId);
+        UUID personId = (UUID) getArguments().getSerializable(ARG_PERSON_ID);
+        Log.d(LOG_TAG, personId.toString());
+        mPerson = PersonBank.get(getActivity()).getPerson(personId);
 
         setRetainInstance(true);
     }
 
+    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_person, container, false);
+        TextView flName = v.findViewById(R.id.personBox);
+        TextView dateBirth = v.findViewById(R.id.date_birth);
 
-        //mTextView = v.findViewById(R.id.personBox);
-        //mTextView.setText(mPerson.getTitle());
+        flName.setText(mPerson.getFirstName() + mPerson.getLastName());
+        dateBirth.setText(mPerson.getBirth());
 
         return v;
     }

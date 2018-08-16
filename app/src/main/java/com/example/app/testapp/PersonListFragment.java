@@ -64,28 +64,31 @@ public class PersonListFragment extends Fragment {
     }
 
     private void updateUI(PersonBank personBank) {
-        //PersonBank personBank = PersonBank.get(getActivity());
         List<Person> persons = personBank.getPersons();
         mAdapter = new PersonAdapter(persons);
         mPersonRecyclerView.setAdapter(mAdapter);
+        mAdapter.setPerson(persons);
     }
 
     private class PersonHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private Person mPerson;
         private TextView mTitleTextView;
+        private TextView mBirthTextView;
 
         public PersonHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_person, parent,false));
             itemView.setOnClickListener(this);
 
             mTitleTextView = itemView.findViewById(R.id.person_title);
+            mBirthTextView = itemView.findViewById(R.id.person_age);
         }
 
         @SuppressLint("SetTextI18n")
         public void bind(Person person) {
             mPerson = person;
             mTitleTextView.setText(mPerson.getFirstName() + " " + mPerson.getLastName());
+            mBirthTextView.setText(mPerson.getBirth());
         }
 
         @Override
@@ -119,6 +122,10 @@ public class PersonListFragment extends Fragment {
         @Override
         public int getItemCount() {
             return mPersons.size();
+        }
+
+        public void setPerson(List<Person> persons) {
+            mPersons = persons;
         }
     }
 }
