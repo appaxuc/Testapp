@@ -35,15 +35,7 @@ public class PersonListFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         PersonBank personBank = PersonBank.get(getActivity());
         Log.d(LOG_TAG, "start FetchItemTask()");
-        try {
-            new FetchItemTask().execute().get(2, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (TimeoutException e) {
-            e.printStackTrace();
-        }
+        new FetchItemTask().execute(); //.get(2, TimeUnit.SECONDS);
         View view = inflater.inflate(R.layout.fragment_person_list, container, false);
         mPersonRecyclerView = view.findViewById(R.id.person_recycler_view);
         mPersonRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

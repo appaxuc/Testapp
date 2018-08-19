@@ -26,9 +26,10 @@ public class SpecFragment extends Fragment {
 
     final String LOG_TAG = "myLogs";
 
-    private RecyclerView mPersonRecyclerView;
+    private RecyclerView mSpecRecyclerView;
     private SpecAdapter mAdapter;
     private List<Person> mItems;
+    private int mPull = -1;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -44,12 +45,12 @@ public class SpecFragment extends Fragment {
         } catch (TimeoutException e) {
             e.printStackTrace();
         }
-        View view = inflater.inflate(R.layout.fragment_person_list, container, false);
-        mPersonRecyclerView = view.findViewById(R.id.person_recycler_view);
-        mPersonRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        Log.d(LOG_TAG,"RV ready");
+        View view = inflater.inflate(R.layout.fragment_spec_list, container, false);
+        mSpecRecyclerView = view.findViewById(R.id.spec_recycler_view);
+        mSpecRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        Log.d(LOG_TAG,"RV spec ready");
         updateUI(personBank);
-        Log.d(LOG_TAG, "UpdateUI finish");
+        Log.d(LOG_TAG, "UpdateUI spec finish");
         return view;
     }
 
@@ -66,33 +67,26 @@ public class SpecFragment extends Fragment {
     private void updateUI(PersonBank personBank) {
         List<Person> persons = personBank.getPersons();
         mAdapter = new SpecAdapter(persons);
-        mPersonRecyclerView.setAdapter(mAdapter);
+        mSpecRecyclerView.setAdapter(mAdapter);
         mAdapter.setPerson(persons);
     }
 
     private class SpecHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private Person mPerson;
-        private TextView mTitleTextView;
-        private TextView mAgeTextView;
+        private TextView mSpecTextView;
 
         public SpecHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item_person, parent,false));
+            super(inflater.inflate(R.layout.list_item_spec, parent,false));
             itemView.setOnClickListener(this);
 
-            mTitleTextView = itemView.findViewById(R.id.person_title);
-            mAgeTextView = itemView.findViewById(R.id.person_age);
+            mSpecTextView = itemView.findViewById(R.id.person_spec);
         }
 
         @SuppressLint("SetTextI18n")
         public void bind(Person person) {
             mPerson = person;
-            mTitleTextView.setText(mPerson.getFirstName() + " " + mPerson.getLastName());
-            if (mPerson.getAge() == -1) {
-                mAgeTextView.setText("Возраст: -");
-            } else {
-                mAgeTextView.setText("Возраст: " + String.valueOf(mPerson.getAge()));
-            }
+            mSpecTextView.setText(mPerson.getSpec());
         }
 
         @Override

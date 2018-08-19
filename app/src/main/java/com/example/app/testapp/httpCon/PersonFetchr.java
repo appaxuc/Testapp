@@ -80,7 +80,6 @@ public class PersonFetchr {
             JSONArray specialtyJsonArray = responseJsonObject.getJSONArray("specialty");
 
             Person item = new Person();
-            item.setId(i);
             String fName = responseJsonObject.getString("f_name");
             fName = fName.substring(0, 1).toUpperCase() + fName.substring(1).toLowerCase();
             item.setFirstName(fName);
@@ -111,6 +110,7 @@ public class PersonFetchr {
             for (int j = 0; j < specialtyJsonArray.length(); j++) {
                 JSONObject specialtyJsonObject = specialtyJsonArray.getJSONObject(j);
                 item.setSpec(specialtyJsonObject.getString("name"));
+                item.setSpecId(specialtyJsonObject.getInt("specialty_id"));
             }
             items.add(item);
         }

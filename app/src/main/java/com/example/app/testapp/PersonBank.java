@@ -85,7 +85,7 @@ public class PersonBank {
         Log.d(LOG_TAG, "CV is created");
         for (int i = 0; i < person.size(); i++) {
             values.put(PersonTable.Cols.UUID, person.get(i).getUUID().toString());
-            values.put(PersonTable.Cols.ID, person.get(i).getId());
+            values.put(PersonTable.Cols.SPEC_ID, person.get(i).getSpecId());
             values.put(PersonTable.Cols.FIRST_NAME, person.get(i).getFirstName());
             values.put(PersonTable.Cols.LAST_NAME, person.get(i).getLastName());
             values.put(PersonTable.Cols.BIRTH, person.get(i).getBirth());

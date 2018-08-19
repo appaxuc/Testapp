@@ -23,7 +23,6 @@ import static com.example.app.testapp.PersonBank.LOG_TAG;
 public class PersonFragment extends Fragment {
 
     private static final String ARG_PERSON_ID = "person_id";
-    private static final String TAG = "PersonListF";
 
     private Person mPerson;
 
