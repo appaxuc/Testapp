@@ -6,12 +6,21 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/flNamePerson"
-        android:id="@+id/personBox"/>
+        android:id="@+id/person_title_full"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/date_birth"/>
+        android:id="@+id/person_birth_full"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/person_age_full"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/person_spec_full"/>
 
 </LinearLayout>

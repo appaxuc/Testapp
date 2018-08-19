@@ -3,5 +3,6 @@
     <string name="textTest">Text</string>
     <string name="person_title">Person Title</string>
     <string name="person_age">Person Age</string>
+    <string name="person_spec">1</string>
     <string name="flNamePerson" />
 </resources>

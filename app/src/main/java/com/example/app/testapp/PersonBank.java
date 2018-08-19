@@ -39,7 +39,7 @@ public class PersonBank {
     }
 
     public static void addPerson(List<Person> p) {
-            ContentValues values = getContentValues(p);
+            getContentValues(p);
     }
 
     public List<Person> getPersons() {
@@ -79,17 +79,6 @@ public class PersonBank {
         }
     }
 
-    public void updatePerson(List<Person> person) {
-        for (int i = 0; i < person.size(); i++) {
-            String uuidString = person.get(i).getUUID().toString();
-            ContentValues values = getContentValues(person);
-
-            mDatabase.update(PersonTable.NAME, values,
-                    PersonTable.Cols.UUID + " = ?",
-                    new String[]{uuidString});
-        }
-    }
-
     private static ContentValues getContentValues(List<Person> person) {
         Log.d(LOG_TAG, "start getContentValues");
         ContentValues values = new ContentValues();
@@ -100,6 +89,7 @@ public class PersonBank {
             values.put(PersonTable.Cols.FIRST_NAME, person.get(i).getFirstName());
             values.put(PersonTable.Cols.LAST_NAME, person.get(i).getLastName());
             values.put(PersonTable.Cols.BIRTH, person.get(i).getBirth());
+            values.put(PersonTable.Cols.AGE, person.get(i).getAge());
             values.put(PersonTable.Cols.SPEC, person.get(i).getSpec());
             mDatabase.insert(PersonTable.NAME, null, values);
             Log.d(LOG_TAG, "added person " + i);

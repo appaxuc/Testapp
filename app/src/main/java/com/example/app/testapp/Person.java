@@ -10,6 +10,15 @@ public class Person {
     private String mBirth;
     private String mSpec;
     private String mTitle;
+    private int mAge;
+
+    public int getAge() {
+        return mAge;
+    }
+
+    public void setAge(int age) {
+        mAge = age;
+    }
 
     public Person() {
         this(UUID.randomUUID());

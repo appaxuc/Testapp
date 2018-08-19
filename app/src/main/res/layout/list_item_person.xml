@@ -6,13 +6,11 @@
 
     <TextView
         android:id="@+id/person_title"
-        android:text="@string/person_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/person_age"
-        android:text="@string/person_age"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

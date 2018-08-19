@@ -1,6 +1,6 @@
 package com.example.app.testapp.httpCon;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.util.Log;
 
 import com.example.app.testapp.Person;
@@ -14,11 +14,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class PersonFetchr {
     private static final String LOG_TAG = "myLogs";
+    private static Calendar todayC = Calendar.getInstance();
 
     public byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);
@@ -67,7 +72,7 @@ public class PersonFetchr {
     }
 
     private void parseItems(List<Person> items, JSONObject jsonBody)
-        throws IOException, JSONException {
+        throws JSONException {
         JSONArray responseJsonArray = jsonBody.getJSONArray("response");
 
         for (int i = 0; i < responseJsonArray.length(); i++) {
@@ -94,11 +99,42 @@ public class PersonFetchr {
             }
             item.setBirth(birth);
 
+            int age;
+            if (birth.length() < 4) {
+                age = -1;
+                item.setAge(age);
+            } else {
+                age = CalculateAge(birth);
+                item.setAge(age);
+            }
+
             for (int j = 0; j < specialtyJsonArray.length(); j++) {
                 JSONObject specialtyJsonObject = specialtyJsonArray.getJSONObject(j);
                 item.setSpec(specialtyJsonObject.getString("name"));
             }
             items.add(item);
         }
+    }
+
+    private static int CalculateAge(String birthday) {
+        Date birthD;
+        Calendar birthC = Calendar.getInstance();
+
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        try {
+            birthD = format.parse(birthday);
+        } catch (ParseException e) {
+            birthD = new Date();
+            e.printStackTrace();
+        }
+
+        birthC.setTime(birthD);
+
+        int age = todayC.get(Calendar.YEAR) - birthC.get(Calendar.YEAR);
+        if (todayC.get(Calendar.DAY_OF_YEAR) <= birthC.get(Calendar.DAY_OF_YEAR)) {
+            age--;
+        }
+        return age;
     }
 }

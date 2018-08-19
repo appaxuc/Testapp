@@ -53,11 +53,19 @@ public class PersonFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_person, container, false);
-        TextView flName = v.findViewById(R.id.personBox);
-        TextView dateBirth = v.findViewById(R.id.date_birth);
+        TextView flName = v.findViewById(R.id.person_title_full);
+        TextView dateBirth = v.findViewById(R.id.person_birth_full);
+        TextView ageFull = v.findViewById(R.id.person_age_full);
+        TextView spec = v.findViewById(R.id.person_spec_full);
 
-        flName.setText(mPerson.getFirstName() + mPerson.getLastName());
-        dateBirth.setText(mPerson.getBirth());
+        flName.setText(mPerson.getFirstName() + " " + mPerson.getLastName());
+        dateBirth.setText("Дата рождения: " + mPerson.getBirth());
+        spec.setText("Специальность: " + mPerson.getSpec());
+        if (mPerson.getAge() == -1) {
+            ageFull.setText("Возраст: -");
+        } else {
+            ageFull.setText("Возраст: " + String.valueOf(mPerson.getAge()));
+        }
 
         return v;
     }

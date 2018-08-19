@@ -74,21 +74,25 @@ public class PersonListFragment extends Fragment {
 
         private Person mPerson;
         private TextView mTitleTextView;
-        private TextView mBirthTextView;
+        private TextView mAgeTextView;
 
         public PersonHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_person, parent,false));
             itemView.setOnClickListener(this);
 
             mTitleTextView = itemView.findViewById(R.id.person_title);
-            mBirthTextView = itemView.findViewById(R.id.person_age);
+            mAgeTextView = itemView.findViewById(R.id.person_age);
         }
 
         @SuppressLint("SetTextI18n")
         public void bind(Person person) {
             mPerson = person;
             mTitleTextView.setText(mPerson.getFirstName() + " " + mPerson.getLastName());
-            mBirthTextView.setText(mPerson.getBirth());
+            if (mPerson.getAge() == -1) {
+                mAgeTextView.setText("Возраст: -");
+            } else {
+                mAgeTextView.setText("Возраст: " + String.valueOf(mPerson.getAge()));
+            }
         }
 
         @Override

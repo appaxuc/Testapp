@@ -25,6 +25,7 @@ public class PersonCursorWrapper extends CursorWrapper {
         String firstName = getString(getColumnIndex(Cols.FIRST_NAME));
         String lastName = getString(getColumnIndex(Cols.LAST_NAME));
         String birth = getString(getColumnIndex(Cols.BIRTH));
+        int age = getInt(getColumnIndex(Cols.AGE));
         String spec = getString(getColumnIndex(Cols.SPEC));
 
         Person person = new Person(UUID.fromString(uuidString));
@@ -32,6 +33,7 @@ public class PersonCursorWrapper extends CursorWrapper {
         person.setFirstName(firstName);
         person.setLastName(lastName);
         person.setBirth(birth);
+        person.setAge(age);
         person.setSpec(spec);
 
         return person;

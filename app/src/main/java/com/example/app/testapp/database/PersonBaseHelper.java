@@ -24,6 +24,7 @@ public class PersonBaseHelper extends SQLiteOpenHelper {
                 PersonTable.Cols.FIRST_NAME + ", " +
                 PersonTable.Cols.LAST_NAME + ", " +
                 PersonTable.Cols.BIRTH + ", " +
+                PersonTable.Cols.AGE + ", " +
                 PersonTable.Cols.SPEC + ")"
         );
     }
