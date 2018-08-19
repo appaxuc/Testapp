@@ -6,7 +6,7 @@ public class PersonDbSchema {
 
         public static final class Cols {
             public static String UUID = "uuid";
-            public static final String ID = "id";
+            public static final String SPEC_ID = "spec_id";
             public static final String FIRST_NAME = "first_name";
             public static final String LAST_NAME = "last_name";
             public static final String BIRTH = "birth";

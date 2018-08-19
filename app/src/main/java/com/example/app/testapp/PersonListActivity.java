@@ -6,6 +6,6 @@ public class PersonListActivity extends SingleFragmentActivity{
 
     @Override
     protected Fragment createFragment() {
-        return new PersonListFragment();
+        return new SpecFragment();
     }
 }

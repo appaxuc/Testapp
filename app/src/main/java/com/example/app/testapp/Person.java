@@ -3,7 +3,7 @@ package com.example.app.testapp;
 import java.util.UUID;
 
 public class Person {
-    private int mId;
+    private int mSpecId;
     private UUID mUUID;
     private String mFirstName;
     private String mLastName;
@@ -32,8 +32,8 @@ public class Person {
         return mFirstName;
     }
 
-    public void setId(int id) {
-        mId = id;
+    public void setSpecId(int id) {
+        mSpecId = id;
     }
 
     public UUID getUUID() {
@@ -76,7 +76,7 @@ public class Person {
         return mTitle;
     }
 
-    public int getId() {
-        return mId;
+    public int getSpecId() {
+        return mSpecId;
     }
 }
