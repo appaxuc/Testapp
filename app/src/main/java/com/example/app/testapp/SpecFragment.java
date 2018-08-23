@@ -27,15 +27,13 @@ public class SpecFragment extends Fragment {
     final String LOG_TAG = "myLogs";
 
     private RecyclerView mSpecRecyclerView;
-    private SpecAdapter mAdapter;
-    private List<Person> mItems;
-    private int mPull = -1;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        PersonBank personBank = PersonBank.get(getActivity());
+        PersonBank personBank = PersonBank.get(getActivity());      // вызвали создание БД поместили в personBank
         Log.d(LOG_TAG, "start FetchItemTask()");
+        // заполняем БД
         try {
             new FetchItemTask().execute().get(2, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
@@ -57,18 +55,18 @@ public class SpecFragment extends Fragment {
     public class FetchItemTask extends AsyncTask<Void, Void, List<Person>> {
         @Override
         protected List<Person> doInBackground(Void... params) {
-            mItems = new PersonFetchr().fetchItems();
+            List<Person> items = new PersonFetchr().fetchItems();
             Log.d(LOG_TAG, "FetchItem finish, start addPerson");
-            PersonBank.addPerson(mItems);
-            return mItems;
+            PersonBank.addPerson(items);
+            return items;
         }
     }
 
     private void updateUI(PersonBank personBank) {
-        List<Person> persons = personBank.getPersons();
-        mAdapter = new SpecAdapter(persons);
-        mSpecRecyclerView.setAdapter(mAdapter);
-        mAdapter.setPerson(persons);
+        List<Person> persons = personBank.getSpecPerson();
+        SpecAdapter adapter = new SpecAdapter(persons);
+        mSpecRecyclerView.setAdapter(adapter);
+        adapter.setPerson(persons);
     }
 
     private class SpecHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -91,7 +89,8 @@ public class SpecFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Intent intent = MainActivity.newIntent(getActivity(), mPerson.getUUID());
+            Log.d(LOG_TAG, mPerson.getSpec());
+            Intent intent = MainActivity.specIntent(getActivity(), mPerson.getSpecId());
             startActivity(intent);
         }
     }

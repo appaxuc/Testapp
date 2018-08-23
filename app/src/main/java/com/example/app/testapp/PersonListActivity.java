@@ -8,4 +8,5 @@ public class PersonListActivity extends SingleFragmentActivity{
     protected Fragment createFragment() {
         return new SpecFragment();
     }
+
 }

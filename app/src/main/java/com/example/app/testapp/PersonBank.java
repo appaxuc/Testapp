@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.example.app.testapp.database.PersonBaseHelper;
 import com.example.app.testapp.database.PersonCursorWrapper;
+import com.example.app.testapp.database.PersonDbSchema;
 import com.example.app.testapp.database.PersonDbSchema.PersonTable;
 
 import java.util.ArrayList;
@@ -40,6 +41,25 @@ public class PersonBank {
 
     public static void addPerson(List<Person> p) {
             getContentValues(p);
+    }
+
+    public List<Person> getSpecPerson() {
+        List<Person> persons = new ArrayList<>();
+        PersonCursorWrapper cursor = queryIdPerson(null, null);
+
+        //int specColumnIndex = cursor.getColumnIndex(PersonTable.Cols.SPEC);
+        try {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                persons.add(cursor.getSpecPerson());
+                cursor.moveToNext();
+            }
+        }
+        finally {
+            cursor.close();
+        }
+        Log.d(LOG_TAG, "Размер выборки " + String.valueOf(persons.size()));
+        return persons;
     }
 
     public List<Person> getPersons() {
@@ -110,6 +130,23 @@ public class PersonBank {
                 null,
                 null
         );
+        return new PersonCursorWrapper(cursor);
+    }
+
+    private PersonCursorWrapper queryIdPerson (String whereSel, String[] whereArgs) {
+        String[] strId = {PersonTable.Cols.SPEC_ID, PersonTable.Cols.SPEC};
+        Cursor cursor = mDatabase.query(
+                true,
+                PersonTable.NAME,
+                strId,
+                whereSel,
+                whereArgs,
+                null,
+                null,
+                null,
+                null
+        );
+        Log.d(LOG_TAG, "Cursor " + cursor.toString());
         return new PersonCursorWrapper(cursor);
     }
 }

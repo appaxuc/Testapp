@@ -18,11 +18,14 @@ import android.widget.TextView;
 import com.example.app.testapp.httpCon.PersonFetchr;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class PersonListFragment extends Fragment {
+
+    private static final String ARG_SPEC_ID = "spec_id";
 
     final String LOG_TAG = "myLogs";
 
@@ -35,7 +38,7 @@ public class PersonListFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         PersonBank personBank = PersonBank.get(getActivity());
         Log.d(LOG_TAG, "start FetchItemTask()");
-        new FetchItemTask().execute(); //.get(2, TimeUnit.SECONDS);
+        //new FetchItemTask().execute(); //.get(2, TimeUnit.SECONDS);
         View view = inflater.inflate(R.layout.fragment_person_list, container, false);
         mPersonRecyclerView = view.findViewById(R.id.person_recycler_view);
         mPersonRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -43,6 +46,15 @@ public class PersonListFragment extends Fragment {
         updateUI(personBank);
         Log.d(LOG_TAG, "UpdateUI finish");
         return view;
+    }
+
+    public static PersonListFragment newInstance (int specId) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_SPEC_ID, specId);
+
+        PersonListFragment fragment = new PersonListFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     public class FetchItemTask extends AsyncTask<Void, Void, List<Person>> {

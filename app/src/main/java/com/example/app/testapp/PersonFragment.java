@@ -40,7 +40,7 @@ public class PersonFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         UUID personId = (UUID) getArguments().getSerializable(ARG_PERSON_ID);
-        Log.d(LOG_TAG, personId.toString());
+        //Log.d(LOG_TAG, personId.toString());
         mPerson = PersonBank.get(getActivity()).getPerson(personId);
 
         setRetainInstance(true);

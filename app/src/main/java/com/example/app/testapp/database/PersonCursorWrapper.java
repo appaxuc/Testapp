@@ -34,4 +34,15 @@ public class PersonCursorWrapper extends CursorWrapper {
 
         return person;
     }
+
+    public Person getSpecPerson() {
+        Person person = new Person(UUID.randomUUID());
+        int specId = getInt(getColumnIndex(Cols.SPEC_ID));
+        String spec = getString(getColumnIndex(Cols.SPEC));
+
+        person.setSpecId(specId);
+        person.setSpec(spec);
+
+        return person;
+    }
 }

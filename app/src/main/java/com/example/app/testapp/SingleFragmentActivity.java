@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 public abstract class SingleFragmentActivity extends AppCompatActivity{
 
     protected abstract Fragment createFragment();
+    public int kkk = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,5 +25,4 @@ public abstract class SingleFragmentActivity extends AppCompatActivity{
                     .commit();
         }
     }
-
 }
