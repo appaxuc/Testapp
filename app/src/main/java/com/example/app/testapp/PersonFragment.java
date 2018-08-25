@@ -1,24 +1,16 @@
 package com.example.app.testapp;
 
 import android.annotation.SuppressLint;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.app.testapp.httpCon.PersonFetchr;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
-
-import static com.example.app.testapp.PersonBank.LOG_TAG;
 
 public class PersonFragment extends Fragment {
 
@@ -40,7 +32,6 @@ public class PersonFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         UUID personId = (UUID) getArguments().getSerializable(ARG_PERSON_ID);
-        //Log.d(LOG_TAG, personId.toString());
         mPerson = PersonBank.get(getActivity()).getPerson(personId);
 
         setRetainInstance(true);

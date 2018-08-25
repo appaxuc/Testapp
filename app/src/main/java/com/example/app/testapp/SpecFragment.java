@@ -15,8 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.app.testapp.httpCon.PersonFetchr;
-
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -52,6 +50,7 @@ public class SpecFragment extends Fragment {
         return view;
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class FetchItemTask extends AsyncTask<Void, Void, List<Person>> {
         @Override
         protected List<Person> doInBackground(Void... params) {
@@ -63,8 +62,7 @@ public class SpecFragment extends Fragment {
     }
 
     private void updateUI(PersonBank personBank) {
-        PersonBank mPersonBank = personBank;
-        List<Person> persons = mPersonBank.getSpecPerson();
+        List<Person> persons = personBank.getSpecPerson();
         SpecAdapter adapter = new SpecAdapter(persons);
         mSpecRecyclerView.setAdapter(adapter);
         adapter.setPerson(persons);
@@ -75,7 +73,7 @@ public class SpecFragment extends Fragment {
         private Person mPerson;
         private TextView mSpecTextView;
 
-        public SpecHolder(LayoutInflater inflater, ViewGroup parent) {
+        SpecHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_spec, parent,false));
             itemView.setOnClickListener(this);
 
@@ -100,7 +98,7 @@ public class SpecFragment extends Fragment {
 
         private List<Person> mPersons;
 
-        public SpecAdapter(List<Person> persons) {
+        SpecAdapter(List<Person> persons) {
             mPersons = persons;
         }
 
@@ -122,7 +120,7 @@ public class SpecFragment extends Fragment {
             return mPersons.size();
         }
 
-        public void setPerson(List<Person> persons) {
+        void setPerson(List<Person> persons) {
             mPersons = persons;
         }
     }

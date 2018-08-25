@@ -2,52 +2,34 @@ package com.example.app.testapp;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.app.testapp.httpCon.PersonFetchr;
-
 import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 public class PersonListFragment extends Fragment {
 
     private static final String ARG_SPEC_ID = "spec_id";
 
-    final String LOG_TAG = "myLogs";
-
     private RecyclerView mPersonRecyclerView;
-    private PersonAdapter mAdapter;
-    private List<Person> mItems;
-    private Person mPerson;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         PersonBank personBank = PersonBank.get(getActivity());
         int specId = (int) getArguments().getSerializable(ARG_SPEC_ID);
-        //Log.d(LOG_TAG, personId.toString());
-        //Log.d(LOG_TAG, "start FetchItemTask()");
-        //new FetchItemTask().execute(); //.get(2, TimeUnit.SECONDS);
         View view = inflater.inflate(R.layout.fragment_person_list, container, false);
         mPersonRecyclerView = view.findViewById(R.id.person_recycler_view);
         mPersonRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        Log.d(LOG_TAG,"RV ready");
         updateUI(personBank, specId);
-        Log.d(LOG_TAG, "UpdateUI finish");
         return view;
     }
 
@@ -60,22 +42,11 @@ public class PersonListFragment extends Fragment {
         return fragment;
     }
 
-    /*public class FetchItemTask extends AsyncTask<Void, Void, List<Person>> {
-        @Override
-        protected List<Person> doInBackground(Void... params) {
-            mItems = new PersonFetchr().fetchItems();
-            Log.d(LOG_TAG, "FetchItem finish, start addPerson");
-            PersonBank.addPerson(mItems);
-            return mItems;
-        }
-    }*/
-
     private void updateUI(PersonBank personBank, int specId) {
         List<Person> persons = personBank.getPersonFromSpec(specId);
-        //Log.d(LOG_TAG, "Persons of spec: "  );
-        mAdapter = new PersonAdapter(persons);
-        mPersonRecyclerView.setAdapter(mAdapter);
-        mAdapter.setPerson(persons);
+        PersonAdapter adapter = new PersonAdapter(persons);
+        mPersonRecyclerView.setAdapter(adapter);
+        adapter.setPerson(persons);
     }
 
     private class PersonHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -84,7 +55,7 @@ public class PersonListFragment extends Fragment {
         private TextView mTitleTextView;
         private TextView mAgeTextView;
 
-        public PersonHolder(LayoutInflater inflater, ViewGroup parent) {
+        PersonHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_person, parent,false));
             itemView.setOnClickListener(this);
 
@@ -114,7 +85,7 @@ public class PersonListFragment extends Fragment {
 
         private List<Person> mPersons;
 
-        public PersonAdapter(List<Person> persons) {
+        PersonAdapter(List<Person> persons) {
             mPersons = persons;
         }
 
@@ -136,7 +107,7 @@ public class PersonListFragment extends Fragment {
             return mPersons.size();
         }
 
-        public void setPerson(List<Person> persons) {
+        void setPerson(List<Person> persons) {
             mPersons = persons;
         }
     }

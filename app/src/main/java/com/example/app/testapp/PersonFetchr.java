@@ -1,9 +1,7 @@
-package com.example.app.testapp.httpCon;
+package com.example.app.testapp;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
-
-import com.example.app.testapp.Person;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,7 +23,7 @@ public class PersonFetchr {
     private static final String LOG_TAG = "myLogs";
     private static Calendar todayC = Calendar.getInstance();
 
-    public byte[] getUrlBytes(String urlSpec) throws IOException {
+    private byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 
@@ -37,7 +35,7 @@ public class PersonFetchr {
                 ": with " + urlSpec);
             }
 
-            int bytesRead = 0;
+            int bytesRead;
             byte[] buffer = new byte[1024];
             while ((bytesRead = in.read(buffer)) > 0) {
                 out.write(buffer, 0, bytesRead);
@@ -49,7 +47,7 @@ public class PersonFetchr {
         }
     }
 
-    public String getUrlString(String urlSpec) throws IOException {
+    private String getUrlString(String urlSpec) throws IOException {
         return new String(getUrlBytes(urlSpec));
     }
 
@@ -60,7 +58,6 @@ public class PersonFetchr {
         try {
             String jsonString = getUrlString(
                     "http://gitlab.65apps.com/65gb/static/raw/master/testTask.json");
-            Log.d(LOG_TAG, "Received JSON: ");
             JSONObject jsonBody = new JSONObject(jsonString);
             parseItems(items, jsonBody);
         } catch (IOException ioe) {
@@ -106,7 +103,6 @@ public class PersonFetchr {
                 age = CalculateAge(birth);
                 item.setAge(age);
             }
-
             for (int j = 0; j < specialtyJsonArray.length(); j++) {
                 JSONObject specialtyJsonObject = specialtyJsonArray.getJSONObject(j);
                 item.setSpec(specialtyJsonObject.getString("name"));
@@ -128,7 +124,6 @@ public class PersonFetchr {
             birthD = new Date();
             e.printStackTrace();
         }
-
         birthC.setTime(birthD);
 
         int age = todayC.get(Calendar.YEAR) - birthC.get(Calendar.YEAR);
