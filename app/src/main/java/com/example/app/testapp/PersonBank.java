@@ -26,6 +26,7 @@ public class PersonBank {
     public static PersonBank get(Context context) {
         Log.d(LOG_TAG, "Call GET");
         if (sPersonBank == null) {
+            Log.d(LOG_TAG, "Update DB");
             sPersonBank = new PersonBank(context);
         }
         return sPersonBank;
@@ -76,6 +77,32 @@ public class PersonBank {
         } finally {
             cursor.close();
         }
+        return persons;
+    }
+
+    public List<Person> getPersonFromSpec(int specId) {
+        List<Person> persons = new ArrayList<>();
+
+        Log.d(LOG_TAG, "Call getPersonFromSpec()");
+        PersonCursorWrapper cursorWrapper = querySpecPerson("spec_id = " + specId,
+                null);
+
+        Log.d(LOG_TAG, "Value of cw: " + String.valueOf(cursorWrapper.getCount()));
+
+        try {
+            if (cursorWrapper.getCount() == 0) {
+                return null;
+            }
+            cursorWrapper.moveToFirst();
+            while (!cursorWrapper.isAfterLast()) {
+                persons.add(cursorWrapper.getPerson());
+                cursorWrapper.moveToNext();
+            }
+            Log.d(LOG_TAG, "move to CW.getPersonFromSpec()");
+        } finally {
+            cursorWrapper.close();
+        }
+        Log.d(LOG_TAG, String.valueOf(persons.size()));
         return persons;
     }
 
@@ -146,7 +173,21 @@ public class PersonBank {
                 null,
                 null
         );
-        Log.d(LOG_TAG, "Cursor " + cursor.toString());
+        return new PersonCursorWrapper(cursor);
+    }
+
+    private PersonCursorWrapper querySpecPerson(String whereSel, String[] whereArgs) {
+
+        Cursor cursor = mDatabase.query(
+                "persons",
+                null,
+                whereSel,
+                whereArgs,
+                null,
+                null,
+                null
+        );
+        Log.d(LOG_TAG, "Cursor после qSP  " + cursor.getCount());
         return new PersonCursorWrapper(cursor);
     }
 }

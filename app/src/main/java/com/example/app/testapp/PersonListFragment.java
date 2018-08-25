@@ -32,18 +32,21 @@ public class PersonListFragment extends Fragment {
     private RecyclerView mPersonRecyclerView;
     private PersonAdapter mAdapter;
     private List<Person> mItems;
+    private Person mPerson;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         PersonBank personBank = PersonBank.get(getActivity());
-        Log.d(LOG_TAG, "start FetchItemTask()");
+        int specId = (int) getArguments().getSerializable(ARG_SPEC_ID);
+        //Log.d(LOG_TAG, personId.toString());
+        //Log.d(LOG_TAG, "start FetchItemTask()");
         //new FetchItemTask().execute(); //.get(2, TimeUnit.SECONDS);
         View view = inflater.inflate(R.layout.fragment_person_list, container, false);
         mPersonRecyclerView = view.findViewById(R.id.person_recycler_view);
         mPersonRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         Log.d(LOG_TAG,"RV ready");
-        updateUI(personBank);
+        updateUI(personBank, specId);
         Log.d(LOG_TAG, "UpdateUI finish");
         return view;
     }
@@ -57,7 +60,7 @@ public class PersonListFragment extends Fragment {
         return fragment;
     }
 
-    public class FetchItemTask extends AsyncTask<Void, Void, List<Person>> {
+    /*public class FetchItemTask extends AsyncTask<Void, Void, List<Person>> {
         @Override
         protected List<Person> doInBackground(Void... params) {
             mItems = new PersonFetchr().fetchItems();
@@ -65,10 +68,11 @@ public class PersonListFragment extends Fragment {
             PersonBank.addPerson(mItems);
             return mItems;
         }
-    }
+    }*/
 
-    private void updateUI(PersonBank personBank) {
-        List<Person> persons = personBank.getPersons();
+    private void updateUI(PersonBank personBank, int specId) {
+        List<Person> persons = personBank.getPersonFromSpec(specId);
+        //Log.d(LOG_TAG, "Persons of spec: "  );
         mAdapter = new PersonAdapter(persons);
         mPersonRecyclerView.setAdapter(mAdapter);
         mAdapter.setPerson(persons);

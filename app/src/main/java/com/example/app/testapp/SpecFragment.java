@@ -63,7 +63,8 @@ public class SpecFragment extends Fragment {
     }
 
     private void updateUI(PersonBank personBank) {
-        List<Person> persons = personBank.getSpecPerson();
+        PersonBank mPersonBank = personBank;
+        List<Person> persons = mPersonBank.getSpecPerson();
         SpecAdapter adapter = new SpecAdapter(persons);
         mSpecRecyclerView.setAdapter(adapter);
         adapter.setPerson(persons);
