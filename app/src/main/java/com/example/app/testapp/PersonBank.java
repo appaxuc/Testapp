@@ -23,7 +23,6 @@ public class PersonBank {
     private static SQLiteDatabase mDatabase;
 
     public static PersonBank get(Context context) {
-        Log.d(LOG_TAG, "Call GET");
         if (sPersonBank == null) {
             Log.d(LOG_TAG, "Update DB");
             sPersonBank = new PersonBank(context);
@@ -32,8 +31,6 @@ public class PersonBank {
     }                                             // Проверка существования БД
 
     private PersonBank(Context context) {
-        Log.d(LOG_TAG, "Call DB create");
-
         mDatabase = new PersonBaseHelper(context)
                 .getWritableDatabase();
         mDatabase.delete("persons", null, null);
@@ -57,14 +54,12 @@ public class PersonBank {
         finally {
             cursor.close();
         }
-        Log.d(LOG_TAG, "Размер выборки " + String.valueOf(persons.size()));
         return persons;
     }                                                       // Запрос выборки специализаций для 1го экрана
 
     public List<Person> getPersonFromSpec(int specId) {
         List<Person> persons = new ArrayList<>();
 
-        Log.d(LOG_TAG, "Call getPersonFromSpec()");
         PersonCursorWrapper cursorWrapper = queryPerson("spec_id = " + specId,
                 null);
 
@@ -83,8 +78,9 @@ public class PersonBank {
         return persons;
     }                                         // Запрос выборки по специализации для 2го экрана
 
-    public Person getPerson(UUID uuid) {
-        Log.d(LOG_TAG, "Call getPerson()");
+    public Person getPerson(UUID uuid)
+
+    {
         PersonCursorWrapper cursorWrapper = queryPerson(
                 PersonTable.Cols.UUID + " = ?",
                 new String[] { uuid.toString() }
