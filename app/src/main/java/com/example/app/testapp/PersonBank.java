@@ -29,14 +29,15 @@ public class PersonBank {
             sPersonBank = new PersonBank(context);
         }
         return sPersonBank;
-    }
+    }                                             // Проверка существования БД
+
     private PersonBank(Context context) {
         Log.d(LOG_TAG, "Call DB create");
 
         mDatabase = new PersonBaseHelper(context)
                 .getWritableDatabase();
         mDatabase.delete("persons", null, null);
-    }
+    }                                                       // Создание БД
 
     public static void addPerson(List<Person> p) {
             getContentValues(p);
@@ -58,13 +59,13 @@ public class PersonBank {
         }
         Log.d(LOG_TAG, "Размер выборки " + String.valueOf(persons.size()));
         return persons;
-    }
+    }                                                       // Запрос выборки специализаций для 1го экрана
 
     public List<Person> getPersonFromSpec(int specId) {
         List<Person> persons = new ArrayList<>();
 
         Log.d(LOG_TAG, "Call getPersonFromSpec()");
-        PersonCursorWrapper cursorWrapper = querySpecPerson("spec_id = " + specId,
+        PersonCursorWrapper cursorWrapper = queryPerson("spec_id = " + specId,
                 null);
 
         try {
@@ -80,7 +81,7 @@ public class PersonBank {
             cursorWrapper.close();
         }
         return persons;
-    }
+    }                                         // Запрос выборки по специализации для 2го экрана
 
     public Person getPerson(UUID uuid) {
         Log.d(LOG_TAG, "Call getPerson()");
@@ -98,7 +99,7 @@ public class PersonBank {
         } finally {
             cursorWrapper.close();
         }
-    }
+    }                                                        // Получение отдельного Person
 
     private static ContentValues getContentValues(List<Person> person) {
         ContentValues values = new ContentValues();
@@ -114,7 +115,7 @@ public class PersonBank {
             mDatabase.insert(PersonTable.NAME, null, values);
         }
         return values;
-    }
+    }                        // Заполнение БД
 
     private PersonCursorWrapper queryPerson (String whereSel, String[] whereArgs) {
         Cursor cursor = mDatabase.query(
@@ -127,7 +128,7 @@ public class PersonBank {
                 null
         );
         return new PersonCursorWrapper(cursor);
-    }
+    }             // Выборка из БД
 
     private PersonCursorWrapper queryIdPerson (String whereSel, String[] whereArgs) {
         String[] strId = {PersonTable.Cols.SPEC_ID, PersonTable.Cols.SPEC};
@@ -143,19 +144,5 @@ public class PersonBank {
                 null
         );
         return new PersonCursorWrapper(cursor);
-    }
-
-    private PersonCursorWrapper querySpecPerson(String whereSel, String[] whereArgs) {
-
-        Cursor cursor = mDatabase.query(
-                "persons",
-                null,
-                whereSel,
-                whereArgs,
-                null,
-                null,
-                null
-        );
-        return new PersonCursorWrapper(cursor);
-    }
+    }           // Выборка из БД с условием
 }

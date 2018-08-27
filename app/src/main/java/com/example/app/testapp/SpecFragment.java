@@ -29,11 +29,9 @@ public class SpecFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        PersonBank personBank = PersonBank.get(getActivity());      // вызвали создание БД поместили в personBank
-        Log.d(LOG_TAG, "start FetchItemTask()");
-        // заполняем БД
+        PersonBank personBank = PersonBank.get(getActivity());                                      // Вызвали создание БД поместили в personBank
         try {
-            new FetchItemTask().execute().get(2, TimeUnit.SECONDS);
+            new FetchItemTask().execute().get(2, TimeUnit.SECONDS);                         // Получение данных с сайта и заполнение БД
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -45,8 +43,8 @@ public class SpecFragment extends Fragment {
         mSpecRecyclerView = view.findViewById(R.id.spec_recycler_view);
         mSpecRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         Log.d(LOG_TAG,"RV spec ready");
-        updateUI(personBank);
-        Log.d(LOG_TAG, "UpdateUI spec finish");
+        updateUI(personBank);                                                                       // Заполнение 1го экрана приложения
+        Log.d(LOG_TAG, "UpdateUI spec finish");                                                // данными из БД: виды специализаций
         return view;
     }
 
@@ -62,9 +60,9 @@ public class SpecFragment extends Fragment {
     }
 
     private void updateUI(PersonBank personBank) {
-        List<Person> persons = personBank.getSpecPerson();
-        SpecAdapter adapter = new SpecAdapter(persons);
-        mSpecRecyclerView.setAdapter(adapter);
+        List<Person> persons = personBank.getSpecPerson();                                          // Запрос выборки видов специализаций,
+        SpecAdapter adapter = new SpecAdapter(persons);                                             // получение специализаций и
+        mSpecRecyclerView.setAdapter(adapter);                                                      // заполнение ими 1го экрана
         adapter.setPerson(persons);
     }
 
@@ -91,7 +89,7 @@ public class SpecFragment extends Fragment {
             Log.d(LOG_TAG, mPerson.getSpec());
             Intent intent = MainActivity.specIntent(getActivity(), mPerson.getSpecId());
             startActivity(intent);
-        }
+        }                                                           // Передача id выбранной специализации для формирования списка 2го экрана
     }
 
     private class SpecAdapter extends RecyclerView.Adapter<SpecHolder> {

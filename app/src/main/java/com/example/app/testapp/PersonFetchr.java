@@ -45,14 +45,13 @@ public class PersonFetchr {
         } finally {
             connection.disconnect();
         }
-    }
+    }                             // Настройка соединения
 
     private String getUrlString(String urlSpec) throws IOException {
         return new String(getUrlBytes(urlSpec));
     }
 
     public List<Person> fetchItems() {
-
         List<Person> items = new ArrayList<>();
 
         try {
@@ -66,10 +65,9 @@ public class PersonFetchr {
             Log.e(LOG_TAG, "Failed to parse JSON", je);
         }
         return items;
-    }
+    }                                                          // Получение данных с сайта, сохранение в JSONObject
 
-    private void parseItems(List<Person> items, JSONObject jsonBody)
-        throws JSONException {
+    private void parseItems(List<Person> items, JSONObject jsonBody) throws JSONException {
         JSONArray responseJsonArray = jsonBody.getJSONArray("response");
 
         for (int i = 0; i < responseJsonArray.length(); i++) {
@@ -110,7 +108,7 @@ public class PersonFetchr {
             }
             items.add(item);
         }
-    }
+    }     // Заполнение объекта Person данными из JSONObject
 
     private static int CalculateAge(String birthday) {
         Date birthD;
@@ -131,5 +129,5 @@ public class PersonFetchr {
             age--;
         }
         return age;
-    }
+    }                                          // Расчет возраста
 }

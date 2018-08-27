@@ -25,7 +25,7 @@ public class PersonFragment extends Fragment {
         PersonFragment fragment = new PersonFragment();
         fragment.setArguments(args);
         return fragment;
-    }
+    }                                  // Создание экземпляра фрагмента с получением данных о Person для отображения
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,5 +58,5 @@ public class PersonFragment extends Fragment {
         }
 
         return v;
-    }
+    }                             // Заполнение экрана данными о Person
 }

@@ -25,11 +25,11 @@ public class PersonListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         PersonBank personBank = PersonBank.get(getActivity());
-        int specId = (int) getArguments().getSerializable(ARG_SPEC_ID);
+        int specId = (int) getArguments().getSerializable(ARG_SPEC_ID);                             // Получение id специализации
         View view = inflater.inflate(R.layout.fragment_person_list, container, false);
         mPersonRecyclerView = view.findViewById(R.id.person_recycler_view);
         mPersonRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        updateUI(personBank, specId);
+        updateUI(personBank, specId);                                                               // Запрос на заполнение экрана Person с выбранной специализацией
         return view;
     }
 
@@ -43,9 +43,9 @@ public class PersonListFragment extends Fragment {
     }
 
     private void updateUI(PersonBank personBank, int specId) {
-        List<Person> persons = personBank.getPersonFromSpec(specId);
-        PersonAdapter adapter = new PersonAdapter(persons);
-        mPersonRecyclerView.setAdapter(adapter);
+        List<Person> persons = personBank.getPersonFromSpec(specId);                                // Запрос из БД Person с выбранной специализацией
+        PersonAdapter adapter = new PersonAdapter(persons);                                         // передача списка адаптеру
+        mPersonRecyclerView.setAdapter(adapter);                                                    // формирование списка 2го экрана
         adapter.setPerson(persons);
     }
 
@@ -64,7 +64,7 @@ public class PersonListFragment extends Fragment {
         }
 
         @SuppressLint("SetTextI18n")
-        public void bind(Person person) {
+        public void bind(Person person) {                                                           // Заполнение сведений о каждом Person на 2й экран
             mPerson = person;
             mTitleTextView.setText(mPerson.getFirstName() + " " + mPerson.getLastName());
             if (mPerson.getAge() == -1) {
@@ -76,7 +76,7 @@ public class PersonListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Intent intent = MainActivity.newIntent(getActivity(), mPerson.getUUID());
+            Intent intent = MainActivity.personIntent(getActivity(), mPerson.getUUID());               // Передача UUID выбранного Person для формирования 3го экрана
             startActivity(intent);
         }
     }

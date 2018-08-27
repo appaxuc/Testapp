@@ -15,19 +15,19 @@ public class MainActivity extends SingleFragmentActivity {
     private static final String EXTRA_SPEC_ID =
             "com.example.app.testapp.spec_id";
 
-    public static Intent newIntent (Context packageContext, UUID personId) {
+    public static Intent personIntent (Context packageContext, UUID personId) {
         chooseIntent = 1;
         Intent intent = new Intent(packageContext, MainActivity.class);
         intent.putExtra(EXTRA_PERSON_ID, personId);
         return intent;
-    }
+    }                 // Intent для создания 3го экрана
 
     public static Intent specIntent (Context packageContext, int specId) {
         chooseIntent = 2;
         Intent intent = new Intent(packageContext, MainActivity.class);
         intent.putExtra(EXTRA_SPEC_ID, specId);
         return intent;
-    }
+    }                      // Intent для создания 2го экрана
 
     @Override
     protected Fragment createFragment() {
